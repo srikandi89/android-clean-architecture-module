@@ -1,0 +1,60 @@
+apply plugin: 'com.android.library'
+
+def _compileSdkVersion   = project.ext.compileSdkVersion
+def _buildToolsVersion   = project.ext.buildToolsVersion
+def _minSdkVersion       = project.ext.minSdkVersion
+def _targetSdkVersion    = project.ext.targetSdkVersion
+
+def _retrofitVersion     = project.ext.retrofitVersion
+def _retrofitGsonVersion = project.ext.retrofitGsonVersion
+
+android {
+    compileSdkVersion _compileSdkVersion
+    buildToolsVersion _buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion _minSdkVersion
+        targetSdkVersion _targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation libs.appCompat
+
+    // begin api client section
+    implementation 'com.squareup.retrofit2:retrofit:' + _retrofitVersion
+    implementation 'com.squareup.retrofit2:converter-gson:' + _retrofitGsonVersion
+    // end api client section
+
+    // begin rxjava section
+    implementation libs.rxJava
+    implementation libs.rxJavaAndroid
+    // end rxjava section
+
+    // begin framework dependencies section
+    implementation project(':domain')
+    // end framework dependencies section
+
+    testImplementation libs.jUnit
+    androidTestImplementation libs.testRunner
+    androidTestImplementation libs.espressoCore
+}

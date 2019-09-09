@@ -1,0 +1,6 @@
+<resources>
+    <string name="et_username_default_value">Username</string>
+    <string name="et_password_default_value">Password</string>
+    <string name="btn_label_login">Login</string>
+    <string name="btn_label_register">Register</string>
+</resources>

@@ -1,0 +1,56 @@
+apply plugin: 'com.android.library'
+
+def _compileSdkVersion      = project.ext.compileSdkVersion
+def _buildToolsVersion      = project.ext.buildToolsVersion
+def _minSdkVersion          = project.ext.minSdkVersion
+def _targetSdkVersion       = project.ext.targetSdkVersion
+
+def _daggerVersion          = project.ext.daggerVersionVersion
+def _daggerCompilerVersion  = project.ext.daggerCompilerVersion
+
+android {
+    compileSdkVersion _compileSdkVersion
+    buildToolsVersion _buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion _minSdkVersion
+        targetSdkVersion _targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_8
+            targetCompatibility JavaVersion.VERSION_1_8
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation libs.appCompat
+
+    // begin rxjava section
+    implementation libs.rxJava
+    implementation libs.rxJavaAndroid
+    // end rxjava section
+
+    // begin dagger section
+    implementation 'com.google.dagger:dagger:' + _daggerVersion
+    annotationProcessor 'com.google.dagger:dagger-compiler:' + _daggerCompilerVersion
+    // end dagger section
+
+    testImplementation libs.jUnit
+    androidTestImplementation libs.testRunner
+    androidTestImplementation libs.espressoCore
+}
